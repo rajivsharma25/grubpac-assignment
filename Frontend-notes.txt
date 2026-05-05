@@ -1,0 +1,48 @@
+Content Broadcasting System - Frontend Documentation
+
+1. Project Structure
+- src/app: Next.js App Router for all pages and layouts.
+- src/components: UI components (Atomic design-ish).
+  - ui/: Reusable atoms like Button, Input, Card, Badge.
+  - layout/: Shared layouts like DashboardLayout (Sidebar/Navbar).
+- src/services: Dedicated service layer for API abstraction.
+- src/context: State management for Auth and Theme (Dark Mode).
+- src/utils: Helper functions (e.g., tailwind-merge utility).
+
+2. Authentication Flow
+- Handled via `AuthContext`.
+- Simulated login stores a mock user object and token in `localStorage`.
+- Roles: 
+  - Principal: trigger by using "principal" in email.
+  - Teacher: default for any other email.
+- Redirection logic in `page.js` handles initial entry and protected route checks in `DashboardLayout`.
+
+3. Role-Based Routing
+- Managed at the layout level (`DashboardLayout`).
+- Navigation menus are dynamically generated based on user role.
+- Unauthenticated users are redirected to `/login`.
+
+4. API Integration Approach
+- All "API" calls are centralized in `src/services/`.
+- `content.service.js` handles fetching, creating, and updating content status.
+- Components never call fetch/axios directly; they use the service layer.
+- Services simulate network latency using `setTimeout`.
+
+5. State Management Approach
+- Context API: Used for global state (Auth, Theme).
+- React Hook Form: Used for form state and validation.
+- Local State (useState): Used for page-specific data and UI toggles.
+- Service results are handled as local state within pages.
+
+6. Assumptions
+- LocalStorage is sufficient for this technical assignment to simulate persistence.
+- File uploads are simulated by converting to DataURLs for local preview.
+- "Auto-refresh" on the live page is implemented via `setInterval` every 30 seconds.
+- "Rotation duration" is handled using a client-side timer that cycles through active content.
+
+7. Key Features Implemented
+- Dark Mode support.
+- Drag-and-Drop file upload with 10MB limit and preview.
+- Principal rejection workflow with mandatory reason modal.
+- Public live page with smooth animations and content rotation.
+- Fully responsive design.
